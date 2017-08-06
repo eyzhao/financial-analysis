@@ -1,0 +1,23 @@
+---
+title: "Financial Analysis Tools"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(stringr)
+```
+
+# University Tuition
+
+## UBC
+
+```{r tuition-ubc}
+read_tsv('data/ubc-tuition.txt', col_names = c('session', 'assessed', 'paid', 'pending', 'balance')) %>%
+  mutate(year = gsub('(\\d*).*', '\\1', session),
+         term = gsub('\\d*', '', session)) %>%
+  ggplot(aes(x = year, y = assessed, fill = term)) +
+    geom_bar(stat = 'identity')
+```
